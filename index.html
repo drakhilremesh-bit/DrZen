@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Butterfly Blossom</title>
+<style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden}
+body{background:linear-gradient(to bottom,#dff2ef 0%,#eef6e9 58%,#dfe9d4 100%);cursor:crosshair;color:#405048;font-family:Georgia,'Times New Roman',serif}
+svg{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+.butterfly{position:fixed;width:30px;height:25px;z-index:10;pointer-events:none;filter:drop-shadow(1px 2px 1px #0003)}
+.wing{transform-box:fill-box;transform-origin:center right;animation:flap .22s ease-in-out infinite alternate}
+.wing.r{transform-origin:center left}
+@keyframes flap{to{transform:rotateY(58deg) scaleY(.9)}}
+@keyframes flicker{0%,100%{opacity:.7}45%{opacity:1}52%{opacity:.4}60%{opacity:.9}}
+.butterfly{animation:flicker 2.1s steps(7,end) infinite}
+
+.flower{position:fixed;width:42px;height:42px;z-index:8;pointer-events:none;transform:translate(-50%,-50%) scale(.1);opacity:0}
+.flower.show{animation:bloom .4s cubic-bezier(.15,.9,.25,1) forwards}
+.flower.fade{animation:fadeFlower .5s ease forwards}
+.petal{position:absolute;left:14px;top:1px;width:14px;height:25px;border-radius:70% 70% 55% 55%;background:linear-gradient(#fff7f5,#eea5a9);transform-origin:50% 20px}
+.p1{transform:rotate(0)}.p2{transform:rotate(72deg)}.p3{transform:rotate(144deg)}.p4{transform:rotate(216deg)}.p5{transform:rotate(288deg)}
+.center{position:absolute;left:15px;top:15px;width:12px;height:12px;border-radius:50%;background:#e6ae45;box-shadow:0 0 0 2px #f5d77b55}
+@keyframes bloom{0%{opacity:0;transform:translate(-50%,-50%) scale(.1) rotate(-15deg)}65%{opacity:1;transform:translate(-50%,-50%) scale(1.1) rotate(5deg)}100%{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@keyframes fadeFlower{to{opacity:0;transform:translate(-50%,-58%) scale(.7)}}
+.spark{position:fixed;width:3px;height:3px;border-radius:50%;background:#e5b65d;pointer-events:none;z-index:9;animation:spark .7s ease-out forwards}
+@keyframes spark{to{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.2)}}
+</style>
+
+
+<style id="moving-clouds">
+.zen-clouds{position:fixed;inset:0;z-index:1;overflow:hidden;pointer-events:none}
+.zen-cloud{position:absolute;display:block;width:150px;height:38px;border-radius:50%;
+  background:rgba(255,255,255,.34);filter:blur(1px);opacity:.55;
+  box-shadow:28px 5px 0 -5px rgba(255,255,255,.28),
+             55px 1px 0 -8px rgba(255,255,255,.24)}
+.cloud-a{top:15%;left:-210px;animation:zenCloudDriftA 75s linear infinite}
+.cloud-b{top:29%;left:-280px;transform:scale(.72);opacity:.38;
+         animation:zenCloudDriftB 105s linear infinite}
+.cloud-c{top:11%;left:-190px;transform:scale(.48);opacity:.28;
+         animation:zenCloudDriftC 125s linear infinite}
+@keyframes zenCloudDriftA{
+  from{transform:translateX(0)}
+  to{transform:translateX(calc(100vw + 430px))}
+}
+@keyframes zenCloudDriftB{
+  from{transform:translateX(0) scale(.72)}
+  to{transform:translateX(calc(100vw + 500px)) scale(.72)}
+}
+@keyframes zenCloudDriftC{
+  from{transform:translateX(0) scale(.48)}
+  to{transform:translateX(calc(100vw + 390px)) scale(.48)}
+}
+</style>
+
+</head>
+<body>
+
+<!-- SVG butterfly template, duplicated as three tiny butterflies -->
+
+<style>
+.zen-sky{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.sun{position:absolute;width:76px;height:76px;border-radius:50%;right:12vw;top:11vh;
+     background:radial-gradient(circle at 40% 38%,#fffdf3 0 12%,#fff5cf 46%,#f1d998 100%);
+     box-shadow:0 0 22px rgba(241,217,152,.16)}}
+.cloud{position:absolute;width:150px;height:34px;border-radius:40px;background:rgba(255,255,255,.52);
+       filter:blur(.2px);opacity:.72}
+.cloud:before,.cloud:after{content:"";position:absolute;border-radius:50%;background:inherit}
+.cloud:before{width:62px;height:62px;left:28px;top:-28px}
+.cloud:after{width:76px;height:76px;left:72px;top:-40px}
+.cloud.c1{top:16vh;left:-180px;animation:cloudDrift 48s linear infinite}
+.cloud.c2{top:28vh;left:-240px;transform:scale(.7);opacity:.48;animation:cloudDrift 68s linear infinite 10s}
+@keyframes cloudDrift{from{translate:0 0}to{translate:calc(100vw + 500px) 0}}
+.zen-ground{position:absolute;left:-5%;right:-5%;bottom:-8%;height:32%;
+             background:linear-gradient(170deg,transparent 0 22%,rgba(122,150,111,.20) 23%,rgba(110,139,101,.16) 60%,rgba(88,118,92,.12));
+             border-radius:50% 50% 0 0}
+.zen-ripple{position:absolute;left:50%;bottom:9%;width:48vw;height:12vw;transform:translateX(-50%);
+            border-top:1px solid rgba(75,104,91,.20);border-radius:50%}
+.zen-ripple:before,.zen-ripple:after{content:"";position:absolute;left:10%;right:10%;border-top:1px solid rgba(75,104,91,.13);border-radius:50%}
+.zen-ripple:before{top:35%}.zen-ripple:after{top:70%}
+.zen-title{position:fixed;top:8vh;left:50%;transform:translateX(-50%);z-index:3;
+           font:500 10px/1 Georgia,serif;letter-spacing:.42em;color:#64746b;opacity:.55}
+.zen-quotes{position:fixed;z-index:7;width:min(360px,76vw);text-align:center;pointer-events:none;
+            opacity:0;transform:translate(-50%,-50%) translateY(5px);
+            transition:opacity .7s ease,transform .7s ease;min-height:45px}
+.zen-quotes.show{opacity:1;transform:translate(-50%,-50%) translateY(0)}
+.zen-quote{display:none;margin:0;padding:7px 12px;color:#43554b}
+.zen-quote strong{display:block;font:600 15px/1.35 Georgia,serif;letter-spacing:.03em}
+.zen-quote span{display:block;margin-top:4px;font:10.5px/1.55 Georgia,serif;opacity:.78}
+.zen-quote.active{display:block}
+.zen-complete{position:fixed;left:50%;bottom:8vh;transform:translateX(-50%);
+              z-index:5;font:9px/1 Georgia,serif;letter-spacing:.12em;color:#718077;
+              opacity:0;transition:opacity 1.2s ease;pointer-events:none}
+.zen-complete.show{opacity:.72}
+
+<style>
+.profile{position:fixed;left:50%;top:50%;z-index:10;width:min(260px,72vw);
+         transform:translate(-50%,-50%) translateY(8px);text-align:center;
+         color:#526158;pointer-events:none;padding:16px 18px 15px;
+         border-radius:10px;background:rgba(250,250,245,.90);backdrop-filter:blur(7px);
+         border:1px solid rgba(65,82,73,.08);box-shadow:0 4px 20px rgba(45,58,50,.08);
+         opacity:0;visibility:hidden;transition:opacity .8s ease,transform .8s ease,visibility .8s}
+.profile.show{opacity:1;transform:translate(-50%,-50%) translateY(0);visibility:visible;pointer-events:auto}
+.profile-name{font-size:12px;font-weight:600;line-height:1.45}
+.profile-line,.profile-phone,.profile-tag{font-size:9.5px;line-height:1.55}
+.profile-tag{margin-top:2px;font-style:italic;opacity:.78}
+.profile-close{position:absolute;right:7px;top:5px;border:0;background:transparent;
+               color:#7b877f;font:14px/14px Georgia,serif;padding:1px;cursor:pointer}
+@media(max-width:600px){
+  .profile{left:9px;bottom:37px;width:158px}
+}
+</style>
+
+</style>
+
+
+</div>
+
+
+<div class="zen-clouds" aria-hidden="true">
+  <span class="zen-cloud cloud-a"></span>
+  <span class="zen-cloud cloud-b"></span>
+  <span class="zen-cloud cloud-c"></span>
+</div>
+
+<div class="zen-sky" aria-hidden="true">
+  <div class="sun"></div>
+  <div class="cloud c1"></div>
+  <div class="cloud c2"></div>
+  <div class="zen-ground"></div>
+  <div class="zen-ripple"></div>
+</div>
+
+<div class="profile" id="profilePanel" aria-hidden="true">
+  <button class="profile-close" id="profileClose" aria-label="Close">×</button>
+  <div class="profile-name">Dr. Akhil Remesh. M</div>
+  <div class="profile-line">Vaidyanatham Vaidyasala</div>
+  <div class="profile-line">Kerala Ayurveda</div>
+  <div class="profile-phone">8921669537</div>
+  <div class="profile-tag">Wellness for all</div>
+</div>
+
+<div class="zen-title">ZEN</div><div class="zen-progress" id="zenProgress"></div>
+<div class="zen-quotes" id="zenQuotes" aria-live="polite">
+  <div class="zen-quote"><strong>Zazen</strong><span>Sit quietly and observe.</span></div>
+  <div class="zen-quote"><strong>Shikantaza</strong><span>Just sit.</span></div>
+  <div class="zen-quote"><strong>Shoshin</strong><span>Keep a beginner’s mind.</span></div>
+  <div class="zen-quote"><strong>Sati</strong><span>Be aware of the present.</span></div>
+  <div class="zen-quote"><strong>Anicca</strong><span>Everything changes.</span></div>
+  <div class="zen-quote"><strong>Anatta</strong><span>There is no fixed self.</span></div>
+  <div class="zen-quote"><strong>Dukkha</strong><span>Clinging can cause suffering.</span></div>
+  <div class="zen-quote"><strong>Śūnyatā</strong><span>Nothing exists completely alone.</span></div>
+  <div class="zen-quote"><strong>Karuṇā</strong><span>Show compassion.</span></div>
+  <div class="zen-quote"><strong>Bodhicitta</strong><span>Wish to help others.</span></div>
+  <div class="zen-quote"><strong>Wabi</strong><span>Find beauty in simplicity.</span></div>
+  <div class="zen-quote"><strong>Sabi</strong><span>See beauty in age and time.</span></div>
+  <div class="zen-quote"><strong>Wabi-sabi</strong><span>Accept imperfection and change.</span></div>
+  <div class="zen-quote"><strong>Yūgen</strong><span>Appreciate the mystery.</span></div>
+  <div class="zen-quote"><strong>Mono no aware</strong><span>Appreciate things because they do not last.</span></div>
+  <div class="zen-quote"><strong>Ma</strong><span>Leave space for things to breathe.</span></div>
+  <div class="zen-quote"><strong>Kanso</strong><span>Keep life simple.</span></div>
+  <div class="zen-quote"><strong>Mushin</strong><span>Act with a quiet mind.</span></div>
+  <div class="zen-quote"><strong>Kaizen</strong><span>Improve little by little.</span></div>
+  <div class="zen-quote"><strong>Ikigai</strong><span>Have a reason to live.</span></div>
+  <div class="zen-quote"><strong>Ichigo Ichie</strong><span>Treasure each moment.</span></div>
+  <div class="zen-quote"><strong>Kintsugi</strong><span>Broken things can have new beauty.</span></div>
+  <div class="zen-quote"><strong>Wa</strong><span>Live in harmony.</span></div>
+  <div class="zen-quote"><strong>Mottainai</strong><span>Do not waste what has value.</span></div>
+  <div class="zen-quote"><strong>Gaman</strong><span>Stay patient through difficulty.</span></div>
+  <div class="zen-quote"><strong>Omoiyari</strong><span>Think about others’ feelings.</span></div>
+  <div class="zen-quote"><strong>Datsuzoku</strong><span>Step beyond ordinary habits.</span></div>
+  <div class="zen-quote"><strong>Seijaku</strong><span>Find peace in quietness.</span></div>
+  <div class="zen-quote"><strong>Kokoro</strong><span>Cultivate the heart-mind.</span></div>
+  <div class="zen-quote"><strong>Tathatā</strong><span>See things as they are.</span></div>
+  <div class="zen-quote"><strong>Mujō</strong><span>Everything is impermanent.</span></div>
+</div>
+<svg aria-hidden="true">
+<defs>
+<g id="butterflyShape">
+  <ellipse class="wing l" cx="-7" cy="-1" rx="8" ry="10" fill="#d77d35" stroke="#49301d" stroke-width=".8"/>
+  <ellipse class="wing r" cx="7" cy="-1" rx="8" ry="10" fill="#d77d35" stroke="#49301d" stroke-width=".8"/>
+  <ellipse class="wing l" cx="-6" cy="7" rx="6" ry="7" fill="#f0bd59" stroke="#49301d" stroke-width=".7"/>
+  <ellipse class="wing r" cx="6" cy="7" rx="6" ry="7" fill="#f0bd59" stroke="#49301d" stroke-width=".7"/>
+  <ellipse cx="0" cy="2" rx="2" ry="10" fill="#29231c"/>
+  <circle cx="0" cy="-7" r="2.3" fill="#29231c"/>
+  <path d="M-1-8 Q-5-13-6-12 M1-8 Q5-13 6-12" fill="none" stroke="#29231c" stroke-width=".7"/>
+</g>
+</defs>
+</svg>
+
+<div class="butterfly" id="b1"></div>
+
+<script>
+const butterflyMarkup = `
+<svg viewBox="-18 -18 36 36" width="30" height="25">
+ <use href="#butterflyShape"/>
+</svg>`;
+document.querySelectorAll(".butterfly").forEach(e=>e.innerHTML=butterflyMarkup);
+
+const butterflies=[...document.querySelectorAll(".butterfly")];
+const state=butterflies.map((el,i)=>({
+ el,x:12,y:22,tx:12,ty:22,
+ vx:0,vy:0,phase:Math.random()*20,pause:0,mode:"wander"
+}));
+
+function newTarget(s){
+ s.tx=4+Math.random()*92;
+ s.ty=6+Math.random()*88;
+ s.mode="wander";
+ s.pause=500+Math.random()*1800;
+}
+state.forEach(newTarget);
+
+let last=performance.now();
+
+function frame(now){
+ const dt=Math.min(32,(now-last))/16.67;last=now;
+
+ state.forEach(s=>{
+   if(s.pause>0)s.pause-=dt*16.67;
+
+   if(s.mode==="wander"){
+     if(s.pause<=0){
+       const dx=s.tx-s.x,dy=s.ty-s.y,d=Math.hypot(dx,dy)||1;
+       const windX=Math.sin(now*.001+s.phase)*.025;
+       const windY=Math.cos(now*.0012+s.phase)*.02;
+       s.vx+=(dx/d*.035+windX)*dt;
+       s.vy+=(dy/d*.035+windY)*dt;
+       s.vx*=.965;s.vy*=.965;
+       s.x+=s.vx*dt;s.y+=s.vy*dt;
+       if(d<1.2)newTarget(s);
+     }
+   }else if(s.mode==="approach"){
+     const dx=s.tx-s.x,dy=s.ty-s.y,d=Math.hypot(dx,dy)||1;
+     s.vx+=(dx/d*.055)*dt;s.vy+=(dy/d*.055)*dt;
+     s.vx*=.94;s.vy*=.94;
+     s.x+=s.vx*dt;s.y+=s.vy*dt;
+     if(d<.8){s.x=s.tx;s.y=s.ty;s.vx=0;s.vy=0;s.mode="land";s.pause=3000}
+   }else if(s.mode==="land"){
+     s.x+=Math.sin(now*.004+s.phase)*.012;
+     s.y+=Math.cos(now*.003+s.phase)*.008;
+     if(s.pause<=0)newTarget(s);
+   }
+
+   s.x=Math.max(1,Math.min(99,s.x));s.y=Math.max(3,Math.min(96,s.y));
+   const angle=Math.max(-18,Math.min(18,s.vx*55));
+   const scale=.72+.07*Math.sin(now*.002+s.phase);
+   s.el.style.left=s.x+"vw";
+   s.el.style.top=s.y+"vh";
+   s.el.style.transform=`translate(-50%,-50%) rotate(${angle}deg) scale(${scale})`;
+ });
+ requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+const zenQuotes=document.getElementById("zenQuotes");
+const zenQuoteItems=[...document.querySelectorAll(".zen-quote")];
+const zenComplete=document.getElementById("zenComplete");
+const profilePanel=document.getElementById("profilePanel");
+const profileClose=document.getElementById("profileClose");
+
+let zenQuoteIndex=-1;
+let zenFinished=false;
+
+function showNextZen(){
+  if(zenFinished || !zenQuoteItems.length) return;
+
+  zenQuoteItems.forEach(q=>q.classList.remove("active"));
+  zenQuoteIndex++;
+
+  if(zenQuoteIndex >= zenQuoteItems.length){
+    zenFinished=true;
+    zenQuotes.classList.remove("show");
+    if(zenComplete) zenComplete.classList.add("show");
+    if(profilePanel){
+      profilePanel.classList.add("show");
+      profilePanel.setAttribute("aria-hidden","false");
+    }
+    return;
+  }
+
+  zenQuoteItems[zenQuoteIndex].classList.add("active");
+
+  const x=innerWidth*.5;
+  const y=innerHeight*.60;
+  zenQuotes.style.left=x+"px";
+  zenQuotes.style.top=Math.max(90,Math.min(innerHeight-90,y+18))+"px";
+  zenQuotes.classList.add("show");
+}
+
+function makeFlower(x,y){
+ const f=document.createElement("div");
+ f.className="flower show";
+ f.style.left=x+"px";f.style.top=y+"px";
+ f.innerHTML=`<span class="petal p1"></span><span class="petal p2"></span><span class="petal p3"></span><span class="petal p4"></span><span class="petal p5"></span><span class="center"></span>`;
+ document.body.appendChild(f);
+
+ for(let i=0;i<7;i++){
+   const p=document.createElement("span");
+   p.className="spark";p.style.left=x+"px";p.style.top=y+"px";
+   p.style.setProperty("--dx",`${(Math.random()-.5)*38}px`);
+   p.style.setProperty("--dy",`${(Math.random()-.5)*38}px`);
+   document.body.appendChild(p);setTimeout(()=>p.remove(),750);
+ }
+ return f;
+}
+
+
+function triggerBlossom(x,y){
+  if(zenFinished) return;
+
+  const flower=makeFlower(x,y);
+  showNextZen();
+
+  const nearest=state[0];
+  if(nearest){
+    nearest.tx=x/innerWidth*100;
+    nearest.ty=(y-18)/innerHeight*100;
+    nearest.vx=0;
+    nearest.vy=0;
+    nearest.mode="approach";
+    nearest.pause=0;
+  }
+
+  window.setTimeout(()=>{
+    if(flower && flower.isConnected){
+      flower.classList.remove("show");
+      flower.classList.add("fade");
+      window.setTimeout(()=>flower.remove(),550);
+    }
+  },5000);
+}
+document.addEventListener("pointerdown",e=>{
+  if(e.target.closest("#profilePanel")) return;
+  triggerBlossom(e.clientX,e.clientY);
+});
+
+if(profileClose && profilePanel){
+  profileClose.addEventListener("click",e=>{
+    e.stopPropagation();
+    profilePanel.classList.remove("show");
+    profilePanel.setAttribute("aria-hidden","true");
+  });
+}
+</script>
+</body>
+</html>
